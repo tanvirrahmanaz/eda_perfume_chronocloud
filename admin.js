@@ -75,7 +75,7 @@ const DEFAULT_SETTINGS = {
   heroLine3: 'NOSE.',
   heroSub: 'Premium artisanal fragrances for the souls who dare to be remembered.',
   announcementText: 'FREE SHIPPING ON ORDERS ABOVE ৳1500 · CASH ON DELIVERY AVAILABLE · AUTHENTIC FRAGRANCES · TRUST YOUR OWN NOSE',
-  whatsappNumber: '8801XXXXXXXXX',
+  whatsappNumber: '01537237191',
   emailAddress: 'hello@edperfume.com',
   businessAddress: 'Dhaka, Bangladesh',
   instagramUrl: '#',

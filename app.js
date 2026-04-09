@@ -10,6 +10,7 @@
 /* ══ STORAGE KEYS (must match admin.js) ══ */
 const SETTINGS_KEY = 'edp_site_settings';
 const PRODUCTS_KEY = 'edp_products';
+const STORE_WHATSAPP_NUMBER = '8801537237191';
 
 /* ══ FALLBACK DEFAULTS (used if admin never saved) ══ */
 const DEFAULT_SETTINGS = {
@@ -20,7 +21,7 @@ const DEFAULT_SETTINGS = {
   heroLine3:        'NOSE.',
   heroSub:          'Premium artisanal fragrances for the souls who dare to be remembered.',
   announcementText: 'FREE SHIPPING ON ORDERS ABOVE ৳1500 · CASH ON DELIVERY AVAILABLE · AUTHENTIC FRAGRANCES · TRUST YOUR OWN NOSE',
-  whatsappNumber:   '8801XXXXXXXXX',
+  whatsappNumber:   '01537237191',
   emailAddress:     'hello@edperfume.com',
   businessAddress:  'Dhaka, Bangladesh',
   instagramUrl:     '#',
@@ -74,6 +75,17 @@ function getProducts() {
     const p = JSON.parse(localStorage.getItem(PRODUCTS_KEY));
     return Array.isArray(p) && p.length ? p : JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
   } catch { return JSON.parse(JSON.stringify(DEFAULT_PRODUCTS)); }
+}
+
+function resolveWhatsAppNumber(raw) {
+  const digits = String(raw || '').replace(/\D/g, '');
+  if (!digits) return STORE_WHATSAPP_NUMBER;
+
+  let normalized = digits;
+  if (digits.startsWith('0')) normalized = `88${digits}`;
+
+  if (normalized.length < 11) return STORE_WHATSAPP_NUMBER;
+  return normalized;
 }
 
 /* ══ PRICE HELPER (apply discount) ══ */
@@ -156,7 +168,7 @@ function applySiteSettings() {
 
   /* Contact links */
   const footerWA = document.getElementById('footer-whatsapp');
-  if (footerWA) footerWA.href = `https://wa.me/${s.whatsappNumber}`;
+  if (footerWA) footerWA.href = `https://wa.me/${resolveWhatsAppNumber(s.whatsappNumber)}`;
 
   const footerEmail = document.getElementById('footer-email');
   if (footerEmail) { footerEmail.href = `mailto:${s.emailAddress}`; footerEmail.textContent = s.emailAddress; }
@@ -513,7 +525,7 @@ function checkoutWhatsApp() {
   if (cart.length === 0) return;
 
   const settings  = getSiteSettings();
-  const waNumber  = settings.whatsappNumber || '8801XXXXXXXXX';
+  const waNumber  = resolveWhatsAppNumber(settings.whatsappNumber);
   const brandName = settings.siteName       || 'EDP';
   const total     = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
 
