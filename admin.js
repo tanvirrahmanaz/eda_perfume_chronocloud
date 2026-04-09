@@ -166,7 +166,9 @@ document.querySelectorAll('.nav-item').forEach(btn => {
 function initAdmin() {
   populateSiteForm();
   renderProductsAdmin();
-  document.getElementById('saveAllBtn').addEventListener('click', saveAll);
+  resetNewProductForm();
+  document.getElementById('saveAllBtn').onclick = saveAll;
+  document.getElementById('addProductBtn').onclick = addProductFromForm;
 }
 
 /* ══ SITE SETTINGS FORM ══════════════════════ */
@@ -202,18 +204,141 @@ function collectSiteSettings() {
 
 /* ══ PRODUCTS ADMIN ══════════════════════════ */
 
+function toSafeNumber(value, fallback = 0) {
+  const n = parseFloat(value);
+  return Number.isFinite(n) ? n : fallback;
+}
+
+function normalizeDiscount(value) {
+  const n = toSafeNumber(value, 0);
+  return Math.max(0, Math.min(99, n));
+}
+
+function slugifyProductId(name) {
+  const base = String(name || '')
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+  return base || `product-${Date.now()}`;
+}
+
+function buildUniqueProductId(name, products) {
+  const base = slugifyProductId(name);
+  let id = base;
+  let i = 2;
+  while (products.some(p => p.id === id)) {
+    id = `${base}-${i}`;
+    i += 1;
+  }
+  return id;
+}
+
+function resetNewProductForm() {
+  const defaults = {
+    newProductName: '',
+    newProductType: 'Eau de Parfum',
+    newProductBadge: '',
+    newProductDescription: '',
+    newProductImage: 'assets/product1.png',
+    newProductNotes: '',
+    newProductSize0Ml: '15ml',
+    newProductSize0Price: '',
+    newProductSize0Discount: '0',
+    newProductSize1Ml: '30ml',
+    newProductSize1Price: '',
+    newProductSize1Discount: '0',
+  };
+
+  Object.entries(defaults).forEach(([id, val]) => {
+    const el = document.getElementById(id);
+    if (el) el.value = val;
+  });
+}
+
+function addProductFromForm() {
+  const name = document.getElementById('newProductName')?.value.trim() || '';
+  if (!name) {
+    showAdminToast('Product name is required', true);
+    return;
+  }
+
+  const products = collectProducts();
+  const productId = buildUniqueProductId(name, products);
+
+  const type = document.getElementById('newProductType')?.value.trim() || 'Eau de Parfum';
+  const badge = document.getElementById('newProductBadge')?.value || '';
+  const description = document.getElementById('newProductDescription')?.value.trim() || '';
+  const image = document.getElementById('newProductImage')?.value.trim() || 'assets/product1.png';
+  const notesRaw = document.getElementById('newProductNotes')?.value || '';
+
+  const size0Ml = document.getElementById('newProductSize0Ml')?.value.trim() || '15ml';
+  const size0Price = toSafeNumber(document.getElementById('newProductSize0Price')?.value, 0);
+  const size0Discount = normalizeDiscount(document.getElementById('newProductSize0Discount')?.value);
+  const size1Ml = document.getElementById('newProductSize1Ml')?.value.trim() || '30ml';
+  const size1Price = toSafeNumber(document.getElementById('newProductSize1Price')?.value, 0);
+  const size1Discount = normalizeDiscount(document.getElementById('newProductSize1Discount')?.value);
+
+  products.push({
+    id: productId,
+    name,
+    type,
+    badge,
+    description,
+    notes: notesRaw.split(',').map(n => n.trim()).filter(Boolean),
+    image,
+    sizes: [
+      { ml: size0Ml, price: size0Price, discountPct: size0Discount },
+      { ml: size1Ml, price: size1Price, discountPct: size1Discount },
+    ],
+  });
+
+  saveProducts(products);
+  renderProductsAdmin();
+  resetNewProductForm();
+
+  const newCard = document.querySelector(`[data-id="${productId}"]`);
+  if (newCard) {
+    newCard.classList.add('open');
+    newCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  showAdminToast(`Product "${name}" added`);
+}
+
+function deleteProductById(productId) {
+  const products = collectProducts();
+  if (products.length <= 1) {
+    showAdminToast('At least one product is required', true);
+    return;
+  }
+
+  const target = products.find(p => p.id === productId);
+  if (!target) return;
+
+  const shouldDelete = window.confirm(`Delete "${target.name}" from products?`);
+  if (!shouldDelete) return;
+
+  const filtered = products.filter(p => p.id !== productId);
+  saveProducts(filtered);
+  renderProductsAdmin();
+  showAdminToast(`Deleted "${target.name}"`);
+}
+
 function renderProductsAdmin() {
   const list = document.getElementById('productsAdminList');
   list.innerHTML = '';
   const products = getProducts();
 
-  products.forEach((p, idx) => {
+  products.forEach((p) => {
     const card = document.createElement('div');
     card.className = 'product-admin-card';
     card.dataset.id = p.id;
 
-    const s0 = p.sizes[0];
-    const s1 = p.sizes[1] || { ml: '30ml', price: 0, discountPct: 0 };
+    const sizes = Array.isArray(p.sizes) && p.sizes.length ? p.sizes : [{ ml: '15ml', price: 0, discountPct: 0 }];
+    const notes = Array.isArray(p.notes) ? p.notes : [];
+    const s0 = sizes[0];
+    const s1 = sizes[1] || { ml: '30ml', price: 0, discountPct: 0 };
 
     card.innerHTML = `
       <div class="product-admin-header">
@@ -224,7 +349,10 @@ function renderProductsAdmin() {
             <p class="product-admin-price">${s0.ml} ৳${s0.price} · ${s1.ml} ৳${s1.price}</p>
           </div>
         </div>
-        <span class="product-admin-expand">+</span>
+        <div class="product-admin-actions">
+          <button class="product-admin-delete" type="button">DELETE</button>
+          <span class="product-admin-expand">+</span>
+        </div>
       </div>
       <div class="product-admin-body">
         <div class="product-admin-body-inner">
@@ -272,7 +400,7 @@ function renderProductsAdmin() {
             </div>
             <div class="form-group">
               <label>FRAGRANCE NOTES (comma separated)</label>
-              <input type="text" id="pnotes-${p.id}" value="${p.notes.join(', ')}" />
+              <input type="text" id="pnotes-${p.id}" value="${notes.join(', ')}" />
             </div>
 
             <div class="form-group">
@@ -311,6 +439,11 @@ function renderProductsAdmin() {
       card.classList.toggle('open');
     });
 
+    card.querySelector('.product-admin-delete').addEventListener('click', (e) => {
+      e.stopPropagation();
+      deleteProductById(p.id);
+    });
+
     // File input → preview
     card.querySelector('.image-preview-box').addEventListener('click', () => {
       card.querySelector('.image-file-input').click();
@@ -347,16 +480,20 @@ function collectProducts() {
     const nameEl  = document.getElementById('pname-' + p.id);
     if (!nameEl) return p; // not rendered yet
 
-    const imgUrl   = document.getElementById('imgUrl-' + p.id)?.value   || p.image;
-    const name     = document.getElementById('pname-' + p.id)?.value    || p.name;
-    const type     = document.getElementById('ptype-' + p.id)?.value    || p.type;
+    const baseSizes = Array.isArray(p.sizes) && p.sizes.length ? p.sizes : [{ ml: '15ml', price: 0, discountPct: 0 }];
+    const firstSize = baseSizes[0] || { ml: '15ml', price: 0, discountPct: 0 };
+    const secondSize = baseSizes[1] || { ml: '30ml', price: 0, discountPct: 0 };
+
+    const imgUrl   = document.getElementById('imgUrl-' + p.id)?.value.trim() || p.image;
+    const name     = document.getElementById('pname-' + p.id)?.value.trim() || p.name;
+    const type     = document.getElementById('ptype-' + p.id)?.value.trim() || p.type;
     const badge    = document.getElementById('pbadge-' + p.id)?.value   || '';
-    const desc     = document.getElementById('pdesc-' + p.id)?.value    || p.description;
+    const desc     = document.getElementById('pdesc-' + p.id)?.value.trim() || p.description;
     const notesRaw = document.getElementById('pnotes-' + p.id)?.value   || '';
-    const price0   = parseFloat(document.getElementById('pprice0-' + p.id)?.value) || p.sizes[0].price;
-    const disc0    = parseFloat(document.getElementById('pdisc0-' + p.id)?.value)  || 0;
-    const price1   = parseFloat(document.getElementById('pprice1-' + p.id)?.value) || (p.sizes[1]?.price || 0);
-    const disc1    = parseFloat(document.getElementById('pdisc1-' + p.id)?.value)  || 0;
+    const price0   = toSafeNumber(document.getElementById('pprice0-' + p.id)?.value, firstSize.price);
+    const disc0    = normalizeDiscount(document.getElementById('pdisc0-' + p.id)?.value);
+    const price1   = toSafeNumber(document.getElementById('pprice1-' + p.id)?.value, secondSize.price);
+    const disc1    = normalizeDiscount(document.getElementById('pdisc1-' + p.id)?.value);
 
     return {
       ...p,
@@ -367,8 +504,8 @@ function collectProducts() {
       description: desc,
       notes: notesRaw.split(',').map(n => n.trim()).filter(Boolean),
       sizes: [
-        { ml: p.sizes[0].ml, price: price0, discountPct: disc0 },
-        { ml: p.sizes[1]?.ml || '30ml', price: price1, discountPct: disc1 },
+        { ml: firstSize.ml || '15ml', price: price0, discountPct: disc0 },
+        { ml: secondSize.ml || '30ml', price: price1, discountPct: disc1 },
       ],
     };
   });

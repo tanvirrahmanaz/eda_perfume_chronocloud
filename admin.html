@@ -198,6 +198,73 @@
         <div class="products-admin-header">
           <p class="products-admin-hint">Click any product to expand and edit. Changes save to LocalStorage and appear on your site instantly.</p>
         </div>
+        <div class="settings-card product-create-card">
+          <div class="card-header">
+            <h2 class="card-title">Add New Product</h2>
+            <p class="card-desc">Fill details and click Add Product. It will appear in both admin and your storefront.</p>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="newProductName">PRODUCT NAME</label>
+              <input type="text" id="newProductName" placeholder="MIDNIGHT OUD" />
+            </div>
+            <div class="form-group">
+              <label for="newProductType">TYPE / CATEGORY</label>
+              <input type="text" id="newProductType" placeholder="Eau de Parfum" />
+            </div>
+            <div class="form-group badge-select">
+              <label for="newProductBadge">BADGE</label>
+              <select id="newProductBadge">
+                <option value="">No Badge</option>
+                <option value="BESTSELLER">BESTSELLER</option>
+                <option value="NEW">NEW</option>
+                <option value="LIMITED">LIMITED</option>
+                <option value="SALE">SALE</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="newProductDescription">DESCRIPTION</label>
+            <textarea id="newProductDescription" rows="3" placeholder="Write product story and profile..."></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="newProductImage">IMAGE URL / PATH</label>
+              <input type="text" id="newProductImage" placeholder="assets/product1.png or https://..." />
+            </div>
+            <div class="form-group">
+              <label for="newProductNotes">FRAGRANCE NOTES (comma separated)</label>
+              <input type="text" id="newProductNotes" placeholder="Oud, Rose, Amber" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="newProductSize0Ml">SIZE 1 LABEL</label>
+              <input type="text" id="newProductSize0Ml" placeholder="15ml" />
+            </div>
+            <div class="form-group">
+              <label for="newProductSize0Price">SIZE 1 PRICE (৳)</label>
+              <input type="number" id="newProductSize0Price" min="0" placeholder="650" />
+            </div>
+            <div class="form-group">
+              <label for="newProductSize0Discount">SIZE 1 DISCOUNT (%)</label>
+              <input type="number" id="newProductSize0Discount" min="0" max="99" placeholder="0" />
+            </div>
+            <div class="form-group">
+              <label for="newProductSize1Ml">SIZE 2 LABEL</label>
+              <input type="text" id="newProductSize1Ml" placeholder="30ml" />
+            </div>
+            <div class="form-group">
+              <label for="newProductSize1Price">SIZE 2 PRICE (৳)</label>
+              <input type="number" id="newProductSize1Price" min="0" placeholder="1150" />
+            </div>
+            <div class="form-group">
+              <label for="newProductSize1Discount">SIZE 2 DISCOUNT (%)</label>
+              <input type="number" id="newProductSize1Discount" min="0" max="99" placeholder="0" />
+            </div>
+          </div>
+          <button class="btn-save-all" id="addProductBtn" type="button">ADD PRODUCT</button>
+        </div>
         <div class="products-admin-list" id="productsAdminList">
           <!-- Rendered by JS -->
         </div>
