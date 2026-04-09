@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>EDP Admin — Control Panel</title>
+  <title>EDP Admin - Control Panel</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -23,13 +23,17 @@
       <p class="login-tagline">Restricted Access</p>
       <div class="login-form">
         <div class="input-group">
-          <label for="adminPass">PASSWORD</label>
-          <input type="password" id="adminPass" placeholder="Enter admin password" autocomplete="current-password" />
+          <label for="adminEmail">ADMIN EMAIL</label>
+          <input type="email" id="adminEmail" placeholder="admin@example.com" autocomplete="username" />
+        </div>
+        <div class="input-group">
+          <label for="adminPassword">PASSWORD</label>
+          <input type="password" id="adminPassword" placeholder="Enter account password" autocomplete="current-password" />
         </div>
         <button class="btn-login" id="loginBtn">ENTER</button>
         <p class="login-error" id="loginError"></p>
       </div>
-      <p class="login-hint">Default password: <strong>edpadmin2024</strong></p>
+      <p class="login-hint">Use your Firebase admin account credentials.</p>
     </div>
   </div>
 
@@ -51,9 +55,9 @@
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
           Products
         </button>
-        <button class="nav-item" data-tab="password">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-          Change Password
+        <button class="nav-item" data-tab="orders">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2h12a2 2 0 012 2v16l-3-2-3 2-3-2-3 2V4a2 2 0 012-2z"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="16" y2="11"/><line x1="8" y1="15" x2="13" y2="15"/></svg>
+          Orders
         </button>
         <button class="nav-item" data-tab="preview">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -85,7 +89,7 @@
         </div>
       </header>
 
-      <!-- ── TAB: SITE SETTINGS ── -->
+      <!-- TAB: SITE SETTINGS -->
       <section class="tab-content active" id="tab-site">
         <div class="settings-grid">
 
@@ -124,7 +128,7 @@
             </div>
             <div class="form-group">
               <label for="announcementText">Announcement Bar Text</label>
-              <input type="text" id="announcementText" placeholder="FREE SHIPPING ON ORDERS ABOVE ৳1500..." />
+              <input type="text" id="announcementText" placeholder="FREE SHIPPING ON ORDERS ABOVE Tk 1500..." />
             </div>
           </div>
 
@@ -134,12 +138,12 @@
               <p class="card-desc">Business contact details</p>
             </div>
             <div class="form-group">
-              <label for="whatsappNumber">WhatsApp Number</label>
+              <label for="phoneNumber">Phone Number</label>
               <div class="input-prefix-wrap">
                 <span class="input-prefix">+</span>
-                <input type="text" id="whatsappNumber" placeholder="01537237191" />
+                <input type="text" id="phoneNumber" placeholder="8801XXXXXXXXX" />
               </div>
-              <span class="field-hint">Use 01537237191 or country format 8801537237191</span>
+              <span class="field-hint">Use full number with country code. E.g: 8801712345678</span>
             </div>
             <div class="form-group">
               <label for="emailAddress">Email Address</label>
@@ -177,7 +181,7 @@
             </div>
             <div class="form-row">
               <div class="form-group">
-                <label for="freeShippingMin">Free Shipping Minimum (৳)</label>
+                <label for="freeShippingMin">Free Shipping Minimum (Tk)</label>
                 <input type="number" id="freeShippingMin" placeholder="1500" min="0" />
               </div>
               <div class="form-group">
@@ -193,7 +197,7 @@
         </div>
       </section>
 
-      <!-- ── TAB: PRODUCTS ── -->
+      <!-- TAB: PRODUCTS -->
       <section class="tab-content" id="tab-products">
         <div class="products-admin-header">
           <p class="products-admin-hint">Click any product to expand and edit. Changes save to LocalStorage and appear on your site instantly.</p>
@@ -243,7 +247,7 @@
               <input type="text" id="newProductSize0Ml" placeholder="15ml" />
             </div>
             <div class="form-group">
-              <label for="newProductSize0Price">SIZE 1 PRICE (৳)</label>
+              <label for="newProductSize0Price">SIZE 1 PRICE (Tk)</label>
               <input type="number" id="newProductSize0Price" min="0" placeholder="650" />
             </div>
             <div class="form-group">
@@ -255,7 +259,7 @@
               <input type="text" id="newProductSize1Ml" placeholder="30ml" />
             </div>
             <div class="form-group">
-              <label for="newProductSize1Price">SIZE 2 PRICE (৳)</label>
+              <label for="newProductSize1Price">SIZE 2 PRICE (Tk)</label>
               <input type="number" id="newProductSize1Price" min="0" placeholder="1150" />
             </div>
             <div class="form-group">
@@ -270,33 +274,34 @@
         </div>
       </section>
 
-      <!-- ── TAB: PASSWORD ── -->
-      <section class="tab-content" id="tab-password">
-        <div class="settings-grid">
-          <div class="settings-card" style="max-width:480px">
-            <div class="card-header">
-              <h2 class="card-title">Change Admin Password</h2>
-              <p class="card-desc">Update your login password</p>
-            </div>
-            <div class="form-group">
-              <label for="currentPass">Current Password</label>
-              <input type="password" id="currentPass" placeholder="Current password" />
-            </div>
-            <div class="form-group">
-              <label for="newPass">New Password</label>
-              <input type="password" id="newPass" placeholder="New password (min 6 chars)" />
-            </div>
-            <div class="form-group">
-              <label for="confirmPass">Confirm New Password</label>
-              <input type="password" id="confirmPass" placeholder="Repeat new password" />
-            </div>
-            <p class="pass-error" id="passError"></p>
-            <button class="btn-save-all" style="margin-top:8px" id="changePassBtn">UPDATE PASSWORD</button>
+      <!-- TAB: ORDERS -->
+      <section class="tab-content" id="tab-orders">
+        <div class="settings-card full-width">
+          <div class="card-header">
+            <h2 class="card-title">Order Management</h2>
+            <p class="card-desc">Review incoming orders, update status, and export as CSV/PDF.</p>
           </div>
+          <div class="orders-toolbar">
+            <div class="orders-filter">
+              <label for="orderStatusFilter">FILTER</label>
+              <select id="orderStatusFilter">
+                <option value="all">All Status</option>
+                <option value="pending">Pending</option>
+                <option value="confirmed">Confirmed</option>
+                <option value="delivered">Delivered</option>
+              </select>
+            </div>
+            <div class="orders-actions">
+              <button class="btn-outline" id="exportOrdersCsvBtn" type="button">EXPORT CSV</button>
+              <button class="btn-outline" id="exportOrdersPdfBtn" type="button">EXPORT PDF</button>
+            </div>
+          </div>
+          <p class="orders-meta" id="ordersMeta">Loading orders...</p>
+          <div class="orders-admin-list" id="ordersAdminList"></div>
         </div>
       </section>
 
-      <!-- ── TAB: PREVIEW ── -->
+      <!-- TAB: PREVIEW -->
       <section class="tab-content" id="tab-preview">
         <div class="preview-wrap">
           <div class="preview-actions">
@@ -316,6 +321,13 @@
   <!-- TOAST -->
   <div class="admin-toast" id="adminToast"></div>
 
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
+  <script src="firebase-config.js"></script>
   <script src="admin.js"></script>
 </body>
 </html>

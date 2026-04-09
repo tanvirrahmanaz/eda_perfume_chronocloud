@@ -167,6 +167,26 @@ button {
   width: 100%;
 }
 
+.account-btn {
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  padding: 10px 14px;
+  border: 1px solid var(--border-light);
+  color: var(--black);
+  background: transparent;
+  max-width: 180px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: background 0.2s, color 0.2s;
+}
+
+.account-btn:hover {
+  background: var(--black);
+  color: var(--white);
+}
+
 .nav-logo {
   text-align: center;
 }
@@ -429,9 +449,9 @@ button {
   font-size: 24px;
 }
 
-.btn-whatsapp {
+.btn-order {
   width: 100%;
-  background: #25D366;
+  background: var(--black);
   color: white;
   padding: 18px 24px;
   font-family: var(--font-body);
@@ -442,12 +462,20 @@ button {
   align-items: center;
   justify-content: center;
   gap: 12px;
-  transition: background 0.25s, transform 0.2s;
+  border: 1px solid var(--black);
+  transition: background 0.25s, transform 0.2s, color 0.25s;
 }
 
-.btn-whatsapp:hover {
-  background: #1ebe5d;
+.btn-order:hover {
+  background: transparent;
+  color: var(--black);
   transform: translateY(-1px);
+}
+
+.btn-order:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
 }
 
 /* === HERO === */
@@ -1402,6 +1430,176 @@ button {
   pointer-events: none;
   user-select: none;
   z-index: 1;
+}
+
+.auth-overlay,
+.checkout-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.62);
+  backdrop-filter: blur(4px);
+  z-index: 600;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s;
+}
+
+.auth-overlay.open,
+.checkout-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.auth-modal,
+.checkout-modal {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0.96);
+  width: min(94vw, 460px);
+  background: var(--white);
+  border: 1px solid var(--border-light);
+  z-index: 700;
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.25s var(--ease-out-expo), opacity 0.25s;
+  padding: 30px 26px 24px;
+}
+
+.auth-modal.open,
+.checkout-modal.open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.auth-close,
+.checkout-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--border-light);
+  font-size: 20px;
+  background: transparent;
+  transition: background 0.2s, color 0.2s;
+}
+
+.auth-close:hover,
+.checkout-close:hover {
+  background: var(--black);
+  color: var(--white);
+}
+
+.auth-head h3,
+.checkout-modal h3 {
+  font-family: var(--font-display);
+  font-size: 34px;
+  font-weight: 400;
+  margin-bottom: 4px;
+}
+
+.auth-head p,
+.checkout-sub {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 16px;
+}
+
+.auth-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--border-light);
+  margin-bottom: 16px;
+}
+
+.auth-tab {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  padding: 10px 12px;
+  background: transparent;
+  border: none;
+}
+
+.auth-tab.active {
+  background: var(--black);
+  color: var(--white);
+}
+
+.auth-form {
+  display: none;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.auth-form.active {
+  display: grid;
+}
+
+.auth-form label,
+.checkout-form label {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: #666;
+}
+
+.auth-form input,
+.checkout-form input,
+.checkout-form textarea {
+  width: 100%;
+  border: 1px solid var(--border-light);
+  padding: 11px 12px;
+  font-family: var(--font-body);
+  font-size: 13px;
+}
+
+.checkout-form .input-error {
+  border-color: #cc2f2f;
+}
+
+.checkout-form .field-error {
+  min-height: 14px;
+  margin-top: -4px;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: #cc2f2f;
+}
+
+.auth-primary-btn,
+.checkout-submit {
+  width: 100%;
+  border: 1px solid var(--black);
+  background: var(--black);
+  color: var(--white);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  padding: 13px 14px;
+  margin-top: 4px;
+}
+
+.auth-secondary-btn,
+.auth-danger-btn {
+  width: 100%;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  padding: 12px 14px;
+  border: 1px solid var(--border-light);
+  margin-top: 8px;
+}
+
+.auth-secondary-btn {
+  background: #fafafa;
+}
+
+.auth-danger-btn {
+  background: #fff1f1;
+  border-color: #f2caca;
+}
+
+.checkout-form {
+  display: grid;
+  gap: 8px;
 }
 
 /* === PRODUCT MODAL === */

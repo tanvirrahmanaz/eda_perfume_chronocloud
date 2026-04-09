@@ -242,6 +242,22 @@ body {
 .btn-save-all:hover { opacity: 0.85; transform: translateY(-1px); }
 .btn-save-all:active { transform: scale(0.99); }
 
+.btn-outline {
+  border: 1px solid var(--border-med);
+  background: transparent;
+  color: var(--white);
+  padding: 11px 14px;
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.btn-outline:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.35);
+}
+
 /* ── TAB CONTENT ── */
 .tab-content { display: none; padding: 36px 40px; flex: 1; }
 .tab-content.active { display: block; }
@@ -514,6 +530,109 @@ body {
   padding-right: 36px;
 }
 
+.orders-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+.orders-filter {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.orders-filter label {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--mid);
+  font-weight: 600;
+}
+.orders-filter select {
+  min-width: 200px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border-med);
+  color: var(--white);
+  padding: 10px 12px;
+}
+.orders-actions {
+  display: flex;
+  gap: 8px;
+}
+.orders-meta {
+  font-size: 12px;
+  color: var(--mid);
+  margin-bottom: 14px;
+}
+.orders-admin-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.order-admin-card {
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.02);
+  padding: 14px 14px 12px;
+}
+.order-admin-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 10px;
+}
+.order-admin-id {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+.order-admin-sub {
+  font-size: 11px;
+  color: var(--mid);
+  margin-top: 3px;
+}
+.order-admin-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.order-admin-controls select {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border-med);
+  color: var(--white);
+  padding: 8px 10px;
+  font-size: 11px;
+}
+.order-admin-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.order-admin-customer,
+.order-admin-items {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  padding: 10px;
+}
+.order-admin-customer p,
+.order-item-row {
+  font-size: 11px;
+  color: #d7d7d7;
+  margin-bottom: 6px;
+}
+.order-admin-customer p:last-child,
+.order-item-row:last-child {
+  margin-bottom: 0;
+}
+.order-item-row strong {
+  color: var(--white);
+}
+.order-empty {
+  border: 1px dashed var(--border-med);
+  padding: 18px;
+  color: var(--mid);
+  text-align: center;
+  font-size: 12px;
+}
+
 /* Password */
 .pass-error {
   font-size: 11px; color: var(--red);
@@ -567,6 +686,10 @@ body {
   .sidebar { display: none; }
   .settings-grid { grid-template-columns: 1fr; }
   .product-admin-body-inner { grid-template-columns: 1fr; }
+  .orders-toolbar { flex-direction: column; align-items: stretch; }
+  .orders-actions { width: 100%; }
+  .orders-actions .btn-outline { flex: 1; }
+  .order-admin-body { grid-template-columns: 1fr; }
   .tab-content { padding: 24px 20px; }
   .admin-header { padding: 20px 20px; }
 }
